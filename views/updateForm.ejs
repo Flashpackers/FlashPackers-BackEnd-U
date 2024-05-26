@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Menu Item</title>
+</head>
+<body>
+    <h1>Update Menu Item</h1>
+    <form action="/api/update/<%= menuItem._id %>" method="post">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" value="<%= menuItem.name %>" required>
+
+        <label for="description">Description:</label>
+        <input type="text" name="description" id="description" value="<%= menuItem.description %>" required>
+
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price" value="<%= menuItem.price %>" required>
+
+        <label for="category">Category:</label>
+        <input type="text" name="category" id="category" value="<%= menuItem.category %>" required>
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

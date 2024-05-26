@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Menu Item</title>
+</head>
+<body>
+    <script>
+        // Use prompt to get the item ID
+        var itemId = prompt("Enter the Menu Item ID:");
+
+        if (itemId) {
+            // Redirect to the update route with the entered item ID
+            window.location.href = "/api/updateView/" + itemId;
+        } else {
+            // Handle the case where the user canceled the prompt or entered an invalid ID
+            alert("Invalid or empty ID. Please try again.");
+            // Redirect to the desired location or handle accordingly
+            window.location.href = "/"; // Redirect to home page as an example
+        }
+    </script>
+</body>
+</html>

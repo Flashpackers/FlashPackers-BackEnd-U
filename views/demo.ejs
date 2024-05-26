@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Items</title>
+    <style>
+        img {
+            display: block;
+            width: 50px;
+            height: auto;
+        }
+        .container{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        ul{
+            width:400px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Menu Items</h1>
+    <div id="menuItems">
+        <% for (const subtype in menuItems) { %>
+            <% if (menuItems.hasOwnProperty(subtype)) { %>
+                <h2>
+                    <%= subtype %>
+                </h2>
+                <div class="container">
+                    <% menuItems[subtype].forEach(item=> { %>
+                        <ul>
+                            <img src="<%= item.image %>" alt="img">
+                            <li> Name: <%= item.name %>
+                            </li>
+                            <li> Price: <%= item.price %>
+                            </li>
+                            <li> Description: <%= item.description %>
+                            </li>
+                            <li> Type: <%= item.type %>
+                            </li>
+                            <li> subtype: <%= item.subtype %>
+                            </li>
+                            <li> Category: <%= item.category %>
+                            </li>
+                            <br><br>
+                        </ul>
+                        <% }); %>
+                </div>
+                <% } %>
+                    <% } %>
+    </div>
+</body>
+
+</html>

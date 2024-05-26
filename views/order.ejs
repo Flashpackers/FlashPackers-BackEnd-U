@@ -1,0 +1,45 @@
+<form action="/api/order/addOrder" method="post">
+    <!-- Customer Information -->
+    <label for="customerName">Customer Name:</label>
+    <input type="text" id="customerName" name="customerName" required>
+
+    <label for="customerEmail">Customer Email:</label>
+    <input type="email" id="customerEmail" name="customerEmail" required>
+
+    <label for="customerPhoneNumber">Customer Phone Number:</label>
+    <input type="tel" id="customerPhoneNumber" name="customerPhoneNumber" required>
+
+    <!-- Order Items -->
+    <div id="orderItems">
+        <label>Order Items:</label>
+        <div class="order-item">
+            <select class="menuItem" name="orderItems[0][menuItem]" required>
+                <!-- Populate this dropdown with available menu items -->
+                <% menuItems.forEach(function(item) { %>
+                    <option value="<%= item._id %>"><%= item.name %></option>
+                <% }); %>
+            </select>
+            <input type="number" class="quantity" name="orderItems[0][quantity]" required>
+            <button type="button" onclick="removeOrderItem(this)">Remove</button>
+        </div>
+    </div>
+
+    <button type="button" onclick="addOrderItem()">Add Order Item</button>
+
+    <button type="submit">Submit Order</button>
+</form>
+
+<script>
+    function addOrderItem() {
+        const orderItemsContainer = document.getElementById('orderItems');
+        const orderItemTemplate = document.querySelector('.order-item');
+        const newOrderItem = orderItemTemplate.cloneNode(true);
+        orderItemsContainer.appendChild(newOrderItem);
+    }
+
+    function removeOrderItem(button) {
+        const orderItem = button.parentElement;
+        const orderItemsContainer = document.getElementById('orderItems');
+        orderItemsContainer.removeChild(orderItem);
+    }
+</script>
