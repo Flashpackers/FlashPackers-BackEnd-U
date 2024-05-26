@@ -49,39 +49,50 @@ const addOrder = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-const orderHistory = async (req,res)=>{
-    try{
+const orderHistory = async (req, res) => {
+    try {
         const existingCustomer = await Customer.findOne({
             name: req.body.customerName,
             email: req.body.customerEmail,
             phoneNumber: req.body.customerPhoneNumber,
         });
+
         if (!existingCustomer) {
-            return res.status(404).json({error:"Invalid Customer"});
+            return res.status(404).json({ error: "Invalid Customer" });
         }
+
         const orders = await Order.find({ customer: existingCustomer._id })
             .select('-createdAt -updatedAt')
-            .lean();  
+            .lean();
+
         const menuItemIds = [...new Set(orders.flatMap(order => Object.keys(order.orderItems)))];
         const menuItems = await Menu.find({ _id: { $in: menuItemIds } }).lean();
-        const menuItemMap = {};
-        menuItems.forEach(item => {
-            menuItemMap[item._id] = item.name;
-        });
-        
+
         const transformedOrders = orders.map(order => {
-            const transformedOrderItems = {};
-            for (const [menuItemId, quantity] of Object.entries(order.orderItems)) {
-                transformedOrderItems[menuItemMap[menuItemId]] = quantity;
-            }
+            const transformedOrderItems = menuItems.map(item => {
+                if (order.orderItems[item._id]) {
+                    return {
+                        id: item._id,
+                        name: item.name,
+                        image: item.image,
+                        quantity: order.orderItems[item._id]
+                    };
+                }
+                return null;
+            }).filter(item => item !== null);
+
             return { ...order, orderItems: transformedOrderItems };
         });
+
         res.status(200).json(transformedOrders);
-    }catch(err){
+    } catch (err) {
         console.error(err);
-        res.status(500).json({error:"Internal Server Error"});
+        res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
+
+module.exports = { getOrderList, addOrder, orderHistory };
+
 
 
 
