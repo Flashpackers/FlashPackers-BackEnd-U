@@ -57,7 +57,7 @@ const orderHistory = async (req,res)=>{
             phoneNumber: req.body.customerPhoneNumber,
         });
         if (!existingCustomer) {
-            return res.status(203).json({error:"Invalid Customer"});
+            return res.status(404).json({error:"Invalid Customer"});
         }
         const orders = await Order.find({ customer: existingCustomer._id })
             .select('-createdAt -updatedAt')
