@@ -62,7 +62,7 @@ const orderHistory = async (req, res) => {
         }
 
         const orders = await Order.find({ customer: existingCustomer._id })
-            .select('-createdAt -updatedAt')
+            .select('-createdAt -updatedAt').sort({createdAt:-1})
             .lean();
 
         const menuItemIds = [...new Set(orders.flatMap(order => Object.keys(order.orderItems)))];
